@@ -1,0 +1,8 @@
+# Pass OpenSSL Variables here for generating certificates
+
+country_name: 'XX'
+state_name: 'XX'
+city_name: 'XXXX'
+org_name: 'XXXXX XX'
+unit_name: 'XXXXX XX'
+common_name: '{{ ansible_fqdn }}'

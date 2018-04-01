@@ -1,0 +1,42 @@
+- name: Installing Docker Registry
+  shell: 'docker pull registry'
+  
+- name: Creating certificate & registry directories
+  file: 
+   path: '{{ item }}'
+   state: directory
+   mode: 0755
+   owner: root
+   group: root
+  with_items:
+   - '/certs'
+   - '/docker-registry'
+   
+- name: Creating self signed certificates
+  command: 'openssl req -newkey rsa:4096 -nodes -sha256 -keyout /certs/ca.key -x509 -days 365 -out /certs/ca.crt -subj "/C={{ country_name }}/ST={{ state_name }}/L={{ city_name }}/O={{ org_name }}/OU={{ unit_name }}/CN={{ common_name }}"'
+  
+- name: Setting up firewall
+  shell: 'firewall-cmd --permanent --add-port=5000/tcp'
+  notify:
+   restart firewall
+   
+- name: Setting up systemd unit file for automatic start of Docker Private registry
+  template: 
+   src: private-docker-registry.j2
+   dest: '/usr/lib/systemd/system/private-docker-registry.service'
+   owner: root
+   group: root
+   mode: 0644
+   
+- name: Starting Docker Private Registry
+  service:
+   name: private-docker-registry
+   state: restarted
+   enabled: yes
+   
+- debug:
+    msg: "You can now run the below commands to connect to the docker regitry hosted on '{{ common_name }}'"
+- debug:
+    msg: "Commands: mkdir -p /etc/docker/certs.d/{{ common_name }}:5000 && scp -pr {{ common_name }}:/certs/ca.crt /etc/docker/certs.d/{{ common_name }}:5000/ && systemctl restart docker"
+- debug:
+    msg: "Setup of Docker Private Registry Completed successfully"

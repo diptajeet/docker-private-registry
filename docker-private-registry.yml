@@ -1,0 +1,8 @@
+# Playbook to setup Docker Private Registry
+---
+- hosts: servers
+  remote_user: root
+
+  roles:
+   - { role: install-docker, tags: ['install-docker'] }
+   - { role: docker-private, tags: ['docker-private'] }
