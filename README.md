@@ -16,8 +16,8 @@ Running the Playbook:
 
 To run the playbook, use this:
 
-Update inventory file for IP-ADDRESS, USER-NAME and SSH PRIVATE KEY FILE
-Update the variables under group_vars/all.yml
+- Update inventory file for IP-ADDRESS, USER-NAME and SSH PRIVATE KEY FILE
+- Update the variables under group_vars/all.yml
 
 then run the below command to install Docker CE & setup private registry.
 
