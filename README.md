@@ -21,11 +21,11 @@ To run the playbook, use this:
 
 Then run the below command to install Docker CE & setup private registry.
 
-# ansible-playbook docker-private-registry.yml -i inventory -b
+ansible-playbook docker-private-registry.yml -i inventory -b
 
 If your Docker CE is already running you can simply use the below command to setup private registry
 
-# ansible-playbook docker-private-registry.yml -i inventory -b --tags docker-private
+ansible-playbook docker-private-registry.yml -i inventory -b --tags docker-private
 
 License
 -------
